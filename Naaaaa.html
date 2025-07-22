@@ -7,18 +7,16 @@
   <style>
     body {
       background: transparent;
-      margin: 0;
+      margin: 20px;
       font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center; /* centra la colonna orizzontalmente nella pagina */
-      padding: 40px 0;
     }
 
     #mainContainer {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      width: 386px; /* contiene tutto */
+      align-items: flex-start; /* Tutto allineato a sinistra */
+      margin-left: 40px; /* Spazio dal bordo sinistro */
+      max-width: 320px; /* Limita larghezza per mantenere tutto ordinato */
     }
 
     #coverWrapper {
@@ -38,7 +36,7 @@
     }
 
     .now-playing-box {
-      margin: 20px 0 5px 0; /* spazio ridotto sotto i titoli */
+      margin: 20px 0 5px 0; /* Riduci margine sotto i titoli */
       font-size: 20px;
       font-family: Playball, cursive;
       color: white;
@@ -83,10 +81,11 @@
       100% { transform: translateX(-100%); }
     }
 
+    /* Player Muses allineato a sinistra, vicino ai titoli */
     #musesplayer {
-      width: 386px;
-      height: 47px;
-      margin-top: 5px; /* poco spazio sotto il titolo */
+      width: 289px;
+      height: 112px;
+      margin-top: 3px; /* Meno spazio sopra il player */
     }
   </style>
 </head>
@@ -105,6 +104,7 @@
     <div id="musesplayer"></div>
   </div>
 
+  <!-- Script metadati -->
   <script>
     const streamId = 't2l8dpcdouitv';
     const metadataUrl = `https://api.zeno.fm/mounts/metadata/subscribe/${streamId}`;
@@ -148,6 +148,7 @@
     es.onerror = err => console.error('SSE error', err);
   </script>
 
+  <!-- Script player Muses -->
   <script src="https://hosted.muses.org/mrp.js"></script>
   <script>
     MRP.insert({
@@ -161,7 +162,7 @@
       welcome: 'Benvenuti',
       wmode: 'transparent',
       skin: 'miniradio',
-      width: 386,
+      width: 289,
       height: 112,
       container: 'musesplayer'
     });
