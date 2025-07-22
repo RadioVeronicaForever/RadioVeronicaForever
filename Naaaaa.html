@@ -13,14 +13,16 @@
     }
 
     #mainContainer {
-      text-align: left;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     /* COPERTINA */
     #coverWrapper {
       width: 300px;
       height: 300px;
-      margin: 0 0 10px 40px;
+      margin-bottom: 10px;
       border: 4px solid #3a3a3a;
       border-radius: 10px;
       background: transparent;
@@ -41,7 +43,7 @@
 
     /* TITOLI CHE SCORRONO */
     .now-playing-box {
-      margin: 20px 0 10px 40px;
+      margin: 20px 0 10px 0;
       font-size: 20px;
       font-family: Playball, cursive;
       color: white;
@@ -98,11 +100,17 @@
       }
     }
 
-    /* PLAYER MUSES */
+    /* CONTENITORE PLAYER CENTRATO */
+    .player-container {
+      width: 386px;
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+    }
+
     #musesplayer {
       width: 386px;
-      margin: 0 0 0 40px;
-      text-align: left;
+      height: 47px;
     }
   </style>
 </head>
@@ -125,8 +133,10 @@
       <div class="bar">|</div>
     </div>
 
-    <!-- PLAYER MUSES -->
-    <div id="musesplayer"></div>
+    <!-- PLAYER MUSES CENTRATO -->
+    <div class="player-container">
+      <div id="musesplayer"></div>
+    </div>
 
   </div>
 
@@ -175,7 +185,7 @@
     es.onerror = err => console.error('SSE error:', err);
   </script>
 
-  <!-- PLAYER MUSES -->
+  <!-- SCRIPT PLAYER MUSES -->
   <script type="text/javascript" src="https://hosted.muses.org/mrp.js"></script>
   <script type="text/javascript">
     MRP.insert({
@@ -185,25 +195,20 @@
       'forceHTML5': true,
       'jsevents': true,
       'buffering': 0,
-      'title': 'RadioVeronicaForever',
+      'title': 'RadioVivaForever',
       'welcome': 'Benvenuti',
       'wmode': 'transparent',
-      'skin': ''miniradio',
+      'skin': 'wmp',
       'width': 386,
       'height': 47,
       'container': 'musesplayer'
     });
 
-    // Riavvio automatico dello streaming in caso di errore o chiusura
-    // Aspettiamo che il player sia pronto
     window.addEventListener('load', () => {
-      // Proviamo a recuperare l'elemento audio dentro il container 'musesplayer'
       const playerContainer = document.getElementById('musesplayer');
-      // cerchiamo il tag audio dentro il container dopo un breve delay (dà tempo al player di inizializzarsi)
       setTimeout(() => {
         const audio = playerContainer.querySelector('audio');
         if (audio) {
-          // Ascolta errori
           audio.onerror = () => {
             console.log('Audio error detected, riavvio lo streaming in 1 secondo');
             setTimeout(() => {
@@ -211,7 +216,6 @@
               audio.play();
             }, 1000);
           };
-          // Ascolta fine dello stream
           audio.onended = () => {
             console.log('Audio stream ended, riavvio in 1 secondo');
             setTimeout(() => {
@@ -222,7 +226,7 @@
         } else {
           console.warn('Audio element non trovato nel player Muses');
         }
-      }, 1000); // 1 secondo per sicurezza
+      }, 1000);
     });
   </script>
 
