@@ -10,14 +10,14 @@
       background: transparent;
       margin: 20px;
       font-family: Arial, sans-serif;
+      color: white;
     }
 
     #mainContainer {
       display: flex;
       flex-direction: column;
-      align-items: flex-start; /* Allinea tutto a sinistra */
-      margin-left: 40px; /* Spazio dal bordo sinistro */
-      gap: 4px; /* Riduce lo spazio verticale tra gli elementi */
+      align-items: flex-start; /* Tutto a sinistra */
+      margin-left: 40px;
     }
 
     /* COPERTINA */
@@ -26,11 +26,11 @@
       height: 300px;
       border: 4px solid #3a3a3a;
       border-radius: 10px;
-      background: transparent;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0; /* Nessun margine */
+      margin-bottom: 5px; /* poco spazio sotto */
+      background: transparent;
     }
 
     #coverArt {
@@ -38,25 +38,24 @@
       height: 100%;
       object-fit: cover;
       border-radius: 6px;
-      display: block;
-      opacity: 1;
       transition: opacity 0.6s ease-in-out;
+      opacity: 1;
     }
 
-    /* TITOLI CHE SCORRONO */
+    /* TITOLI */
     .now-playing-box {
-      margin: 0;
-      font-size: 20px;
-      font-family: Playball, cursive;
-      color: white;
+      width: 300px;
+      height: 48px;
       display: flex;
       align-items: center;
       justify-content: flex-start;
-      width: 300px;
-      height: 48px;
-      overflow: hidden;
-      padding: 0;
+      font-family: Playball, cursive;
+      font-size: 20px;
+      color: white;
       background: transparent;
+      overflow: hidden;
+      margin: 0 0 4px 0; /* 4px sotto per avvicinare player */
+      padding: 0;
     }
 
     .bar {
@@ -82,7 +81,6 @@
     .scrolling-text {
       position: absolute;
       white-space: nowrap;
-      will-change: transform;
       animation: scroll-left 12s linear infinite;
       color: white;
       line-height: 48px;
@@ -94,20 +92,17 @@
     }
 
     @keyframes scroll-left {
-      0% {
-        transform: translateX(100%);
-      }
-      100% {
-        transform: translateX(-100%);
-      }
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
     }
 
     /* PLAYER MUSES */
     #musesplayer {
-      width: 289px; /* mantenuto come da te richiesto */
-      height: 112px; /* mantenuto come da te richiesto */
-      margin-top: 4px; /* molto vicino sotto i titoli */
-      margin-left: 0;
+      width: 289px !important;  /* mantieni dimensioni */
+      height: 112px !important;
+      margin: 0; /* zero margine */
+      padding: 0;
+      overflow: visible; /* assicurati che non sia tagliato */
     }
   </style>
 </head>
@@ -116,12 +111,10 @@
 
   <div id="mainContainer">
 
-    <!-- COPERTINA -->
     <div id="coverWrapper">
       <img id="coverArt" src="https://i.postimg.cc/bvdkRdR3/sssssswwww.png" alt="Cover Art" />
     </div>
 
-    <!-- TITOLI CHE SCORRONO -->
     <div class="now-playing-box">
       <div class="bar">|</div>
       <div class="scroll-container">
@@ -130,12 +123,10 @@
       <div class="bar">|</div>
     </div>
 
-    <!-- PLAYER MUSES -->
     <div id="musesplayer"></div>
 
   </div>
 
-  <!-- SCRIPT METADATI E COPERTINA -->
   <script>
     const streamId = 't2l8dpcdouitv';
     const metadataUrl = `https://api.zeno.fm/mounts/metadata/subscribe/${streamId}`;
@@ -180,9 +171,8 @@
     es.onerror = err => console.error('SSE error:', err);
   </script>
 
-  <!-- SCRIPT PLAYER MUSES -->
-  <script type="text/javascript" src="https://hosted.muses.org/mrp.js"></script>
-  <script type="text/javascript">
+  <script src="https://hosted.muses.org/mrp.js"></script>
+  <script>
     MRP.insert({
       'url': 'https://stream-179.zeno.fm/t2l8dpcdouitv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ0Mmw4ZHBjZG91aXR2IiwiaG9zdCI6InN0cmVhbS0xNzkuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoidmNlUUQxemxSM091WUUzaXNPbDlUZyIsImlhdCI6MTc1MzA0ODA4MywiZXhwIjoxNzUzMDQ4MTQzfQ.ySf3UoRWxgUDQm0veN-_NV9vJI8-Xx2A3qdI1ulVHY4',
       'volume': 100,
