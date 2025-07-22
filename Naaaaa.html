@@ -15,7 +15,8 @@
     #mainContainer {
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: flex-start; /* Allinea tutto a sinistra */
+      margin-left: 40px; /* Spazio dal bordo sinistro */
     }
 
     /* COPERTINA */
@@ -100,17 +101,11 @@
       }
     }
 
-    /* CONTENITORE PLAYER CENTRATO */
-    .player-container {
-      width: 386px;
-      margin-top: 10px;
-      display: flex;
-      justify-content: center;
-    }
-
+    /* PLAYER MUSES VISIBILE E ALLINEATO A SINISTRA */
     #musesplayer {
       width: 386px;
       height: 47px;
+      margin-top: 10px;
     }
   </style>
 </head>
@@ -133,10 +128,8 @@
       <div class="bar">|</div>
     </div>
 
-    <!-- PLAYER MUSES CENTRATO -->
-    <div class="player-container">
-      <div id="musesplayer"></div>
-    </div>
+    <!-- PLAYER MUSES ALLINEATO A SINISTRA -->
+    <div id="musesplayer"></div>
 
   </div>
 
