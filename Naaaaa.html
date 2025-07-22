@@ -8,7 +8,7 @@
   <style>
     body {
       background: transparent;
-      margin: 20px;
+      margin: 0;
       font-family: Arial, sans-serif;
     }
 
@@ -16,7 +16,7 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      margin-left: 40px;
+      margin: 40px;
     }
 
     /* COPERTINA */
@@ -101,16 +101,17 @@
       }
     }
 
-    /* PLAYER MUSES ALLINEATO VISIVAMENTE CON LA COPERTINA */
+    /* PLAYER MUSES */
     .player-wrapper {
-      width: 300px; /* Allineato a copertina e titoli */
+      width: 300px;
       display: flex;
-      justify-content: center; /* Centra il player nel box da 300px */
+      justify-content: center;
+      align-items: center;
       margin-top: 10px;
     }
 
     #musesplayer {
-      width: 220px; /* larghezza visiva effettiva del player "miniradio" */
+      width: 300px; /* Importante: deve corrispondere al contenitore per centrarlo */
       height: 47px;
     }
   </style>
@@ -134,14 +135,14 @@
       <div class="bar">|</div>
     </div>
 
-    <!-- PLAYER MUSES CENTRATO NELLA COLONNA -->
+    <!-- PLAYER MUSES -->
     <div class="player-wrapper">
       <div id="musesplayer"></div>
     </div>
 
   </div>
 
-  <!-- SCRIPT METADATI E COPERTINA -->
+  <!-- SCRIPT METADATI -->
   <script>
     const streamId = 't2l8dpcdouitv';
     const metadataUrl = `https://api.zeno.fm/mounts/metadata/subscribe/${streamId}`;
@@ -187,10 +188,10 @@
   </script>
 
   <!-- SCRIPT PLAYER MUSES -->
-  <script type="text/javascript" src="https://hosted.muses.org/mrp.js"></script>
-  <script type="text/javascript">
+  <script src="https://hosted.muses.org/mrp.js"></script>
+  <script>
     MRP.insert({
-      'url': 'https://stream-179.zeno.fm/t2l8dpcdouitv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ0Mmw4ZHBjZG91aXR2IiwiaG9zdCI6InN0cmVhbS0xNzkuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoidmNlUUQxemxSM091WUUzaXNPbDlUZyIsImlhdCI6MTc1MzA0ODA4MywiZXhwIjoxNzUzMDQ4MTQzfQ.ySf3UoRWxgUDQm0veN-_NV9vJI8-Xx2A3qdI1ulVHY4',
+      'url': 'https://stream-179.zeno.fm/t2l8dpcdouitv',
       'volume': 100,
       'autoplay': true,
       'forceHTML5': true,
@@ -200,7 +201,7 @@
       'welcome': 'Benvenuti',
       'wmode': 'transparent',
       'skin': 'miniradio',
-      'width': 220,  // larghezza reale del player
+      'width': 300,
       'height': 47,
       'container': 'musesplayer'
     });
@@ -211,21 +212,19 @@
         const audio = playerContainer.querySelector('audio');
         if (audio) {
           audio.onerror = () => {
-            console.log('Audio error detected, riavvio lo streaming in 1 secondo');
+            console.log('Errore audio, riavvio...');
             setTimeout(() => {
               audio.load();
               audio.play();
             }, 1000);
           };
           audio.onended = () => {
-            console.log('Audio stream ended, riavvio in 1 secondo');
+            console.log('Stream terminato, riavvio...');
             setTimeout(() => {
               audio.load();
               audio.play();
             }, 1000);
           };
-        } else {
-          console.warn('Audio element non trovato nel player Muses');
         }
       }, 1000);
     });
