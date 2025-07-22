@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Radio Copertina e Titoli</title>
+
+  <style>
+    body {
+      background: transparent;
+      margin: 20px;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+
+    #mainContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start; /* Allineamento a sinistra */
+      margin-left: 40px;
+    }
+
+    /* Copertina */
+    #coverWrapper {
+      width: 300px;
+      height: 300px;
+      border: 4px solid #3a3a3a;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 5px;
+      background: transparent;
+    }
+
+    #coverArt {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 6px;
+      transition: opacity 0.6s ease-in-out;
+      opacity: 1;
+    }
+
+    /* Titoli */
+    .now-playing-box {
+      width: 300px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      font-family: Playball, cursive;
+      font-size: 20px;
+      color: white;
+      background: transparent;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+
+    .bar {
+      font-size: 26px;
+      font-weight: bold;
+      color: #3a3a3a;
+      user-select: none;
+      padding: 0 8px;
+      flex-shrink: 0;
+      line-height: 48px;
+    }
+
+    .scroll-container {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding-left: 4px;
+    }
+
+    .scrolling-text {
+      position: absolute;
+      white-space: nowrap;
+      animation: scroll-left 12s linear infinite;
+      color: white;
+      line-height: 48px;
+      text-shadow:
+         -1px -1px 0 red,
+          1px -1px 0 red,
+         -1px  1px 0 red,
+          1px  1px 0 red;
+    }
+
+    @keyframes scroll-left {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="mainContainer">
+
+    <div id="coverWrapper">
+      <img id="coverArt" src="https://i.postimg.cc/bvdkRdR3/sssssswwww.png" alt="Cover Art" />
+    </div>
+
+    <div class="now-playing-box">
+      <div class="bar">|</div>
+      <div class="scroll-container">
+        <div class="scrolling-text" id="npTitle"></div>
+      </div>
+      <div class="bar">|</div>
+    </div>
+
+  </div>
+
+  <script>
+    const streamId = 't2l8dpcdouitv';
+    const metadataUrl = `https://api.zeno.fm/mounts/metadata/subscribe/${streamId}`;
+    const titleEl = document.getElementById('npTitle');
+    const coverArt = document.getElementById('coverArt');
+    const defaultCover = "https://i.postimg.cc/bvdkRdR3/sssssswwww.png";
+
+    const es = new EventSource(metadataUrl);
+    es.onmessage = async event => {
+      try {
+        const data = JSON.parse(event.data);
+        const rawTitle = data.streamTitle.trim();
+        titleEl.textContent = rawTitle;
+
+        if (rawTitle.includes('-')) {
+          const [artist, track] = rawTitle.split('-').map(s => s.trim());
+          const query = encodeURIComponent(`${artist} ${track}`);
+          const res = await fetch(`https://itunes.apple.com/search?term=${query}&limit=1`);
+          const json = await res.json();
+          if (json.results.length > 0) {
+            const albumArt = json.results[0].artworkUrl100.replace('100x100bb', '300x300bb');
+            transitionCover(albumArt);
+          } else {
+            transitionCover(defaultCover);
+          }
+        } else {
+          transitionCover(defaultCover);
+        }
+      } catch {
+        transitionCover(defaultCover);
+      }
+    };
+
+    function transitionCover(newSrc) {
+      coverArt.style.opacity = "0";
+      setTimeout(() => {
+        coverArt.src = newSrc;
+        coverArt.style.opacity = "1";
+      }, 500);
+    }
+
+    es.onerror = err => console.error('SSE error:', err);
+  </script>
+
+</body>
+</html>
