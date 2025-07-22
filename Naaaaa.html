@@ -15,8 +15,8 @@
     #mainContainer {
       display: flex;
       flex-direction: column;
-      align-items: flex-start; /* Allinea tutto a sinistra */
-      margin-left: 40px; /* Spazio dal bordo sinistro */
+      align-items: flex-start;
+      margin-left: 40px;
     }
 
     /* COPERTINA */
@@ -86,10 +86,10 @@
       color: white;
       line-height: 48px;
       text-shadow:
-         -1px -1px 0 red,
-          1px -1px 0 red,
-         -1px  1px 0 red,
-          1px  1px 0 red;
+        -1px -1px 0 red,
+         1px -1px 0 red,
+        -1px  1px 0 red,
+         1px  1px 0 red;
     }
 
     @keyframes scroll-left {
@@ -101,11 +101,17 @@
       }
     }
 
-    /* PLAYER MUSES VISIBILE E ALLINEATO A SINISTRA */
-    #musesplayer {
-      width: 386px;
-      height: 47px;
+    /* PLAYER MUSES ALLINEATO VISIVAMENTE CON LA COPERTINA */
+    .player-wrapper {
+      width: 300px; /* Allineato a copertina e titoli */
+      display: flex;
+      justify-content: center; /* Centra il player nel box da 300px */
       margin-top: 10px;
+    }
+
+    #musesplayer {
+      width: 220px; /* larghezza visiva effettiva del player "miniradio" */
+      height: 47px;
     }
   </style>
 </head>
@@ -128,8 +134,10 @@
       <div class="bar">|</div>
     </div>
 
-    <!-- PLAYER MUSES ALLINEATO A SINISTRA -->
-    <div id="musesplayer"></div>
+    <!-- PLAYER MUSES CENTRATO NELLA COLONNA -->
+    <div class="player-wrapper">
+      <div id="musesplayer"></div>
+    </div>
 
   </div>
 
@@ -192,7 +200,7 @@
       'welcome': 'Benvenuti',
       'wmode': 'transparent',
       'skin': 'miniradio',
-      'width': 386,
+      'width': 220,  // larghezza reale del player
       'height': 47,
       'container': 'musesplayer'
     });
