@@ -1,90 +1,127 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Radio Veronica Forever</title>
-<style>
-  body {
-    background: transparent;
-    margin: 20px;
-    font-family: Arial, sans-serif;
-  }
-  #mainContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Allineamento a sinistra */
-    margin-left: 40px;
-    max-width: 320px;
-  }
-  #coverWrapper {
-    width: 300px;
-    height: 300px;
-    margin-bottom: 10px;
-    border: 4px solid #3a3a3a;
-    border-radius: 10px;
-  }
-  #coverArt {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 6px;
-    transition: opacity 0.6s ease-in-out;
-  }
-  .now-playing-box {
-    margin: 0 0 4px 0; /* Poco spazio sotto i titoli */
-    font-size: 20px;
-    font-family: Playball, cursive;
-    color: white;
-    width: 300px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-  }
-  .bar {
-    font-size: 26px;
-    font-weight: bold;
-    color: #3a3a3a;
-    padding: 0 12px;
-  }
-  .scroll-container {
-    flex: 1;
-    position: relative;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    padding-left: 4px;
-  }
-  .scrolling-text {
-    position: absolute;
-    white-space: nowrap;
-    animation: scroll-left 12s linear infinite;
-    color: white;
-    text-shadow:
-      -1px -1px 0 red,
-       1px -1px 0 red,
-      -1px  1px 0 red,
-       1px  1px 0 red;
-  }
-  @keyframes scroll-left {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
-  }
-  #musesplayer {
-    width: 289px;
-    height: 112px;
-    margin-top: 2px; /* Spazio molto piccolo per avvicinare il player */
-    align-self: flex-start; /* Allineamento a sinistra */
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Radio Player con Copertine e Titoli</title>
+
+  <style>
+    body {
+      background: transparent;
+      margin: 20px;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+
+    #mainContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start; /* Allinea tutto a sinistra */
+      margin-left: 40px; /* Spazio dal bordo sinistro */
+    }
+
+    /* COPERTINA */
+    #coverWrapper {
+      width: 300px;
+      height: 300px;
+      margin-bottom: 4px; /* Ridotto da 10px a 4px */
+      border: 4px solid #3a3a3a;
+      border-radius: 10px;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #coverArt {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 6px;
+      display: block;
+      opacity: 1;
+      transition: opacity 0.6s ease-in-out;
+    }
+
+    /* TITOLI CHE SCORRONO */
+    .now-playing-box {
+      margin: 0 0 2px 0; /* Ridotto da 20px/10px a 0 0 2px 0 */
+      font-size: 20px;
+      font-family: Playball, cursive;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      width: 300px;
+      height: 48px;
+      overflow: hidden;
+      padding: 0;
+      background: transparent;
+    }
+
+    .bar {
+      font-size: 26px;
+      font-weight: bold;
+      color: #3a3a3a;
+      user-select: none;
+      padding: 0 12px;
+      flex-shrink: 0;
+      line-height: 48px;
+    }
+
+    .scroll-container {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding-left: 4px;
+    }
+
+    .scrolling-text {
+      position: absolute;
+      white-space: nowrap;
+      will-change: transform;
+      animation: scroll-left 12s linear infinite;
+      color: white;
+      line-height: 48px;
+      text-shadow:
+         -1px -1px 0 red,
+          1px -1px 0 red,
+         -1px  1px 0 red,
+          1px  1px 0 red;
+    }
+
+    @keyframes scroll-left {
+      0% {
+        transform: translateX(100%);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    /* PLAYER MUSES */
+    #musesplayer {
+      width: 289px;   /* mantenuto come da te richiesto */
+      height: 112px;  /* mantenuto come da te richiesto */
+      margin-top: 0;  /* ridotto al minimo per avvicinare */
+      align-self: flex-start; /* allineato a sinistra */
+    }
+  </style>
 </head>
+
 <body>
+
   <div id="mainContainer">
+
+    <!-- COPERTINA -->
     <div id="coverWrapper">
       <img id="coverArt" src="https://i.postimg.cc/bvdkRdR3/sssssswwww.png" alt="Cover Art" />
     </div>
+
+    <!-- TITOLI CHE SCORRONO -->
     <div class="now-playing-box">
       <div class="bar">|</div>
       <div class="scroll-container">
@@ -92,15 +129,19 @@
       </div>
       <div class="bar">|</div>
     </div>
+
+    <!-- PLAYER MUSES -->
     <div id="musesplayer"></div>
+
   </div>
 
+  <!-- SCRIPT METADATI E COPERTINA -->
   <script>
     const streamId = 't2l8dpcdouitv';
     const metadataUrl = `https://api.zeno.fm/mounts/metadata/subscribe/${streamId}`;
     const titleEl = document.getElementById('npTitle');
     const coverArt = document.getElementById('coverArt');
-    const defaultCover = coverArt.src;
+    const defaultCover = "https://i.postimg.cc/bvdkRdR3/sssssswwww.png";
 
     const es = new EventSource(metadataUrl);
     es.onmessage = async event => {
@@ -111,11 +152,12 @@
 
         if (rawTitle.includes('-')) {
           const [artist, track] = rawTitle.split('-').map(s => s.trim());
-          const q = encodeURIComponent(`${artist} ${track}`);
-          const res = await fetch(`https://itunes.apple.com/search?term=${q}&limit=1`);
-          const js = await res.json();
-          if (js.results.length) {
-            transitionCover(js.results[0].artworkUrl100.replace('100x100bb', '300x300bb'));
+          const query = encodeURIComponent(`${artist} ${track}`);
+          const res = await fetch(`https://itunes.apple.com/search?term=${query}&limit=1`);
+          const json = await res.json();
+          if (json.results.length > 0) {
+            const albumArt = json.results[0].artworkUrl100.replace('100x100bb', '300x300bb');
+            transitionCover(albumArt);
           } else {
             transitionCover(defaultCover);
           }
@@ -127,44 +169,61 @@
       }
     };
 
-    function transitionCover(src) {
-      coverArt.style.opacity = 0;
+    function transitionCover(newSrc) {
+      coverArt.style.opacity = "0";
       setTimeout(() => {
-        coverArt.src = src;
-        coverArt.style.opacity = 1;
+        coverArt.src = newSrc;
+        coverArt.style.opacity = "1";
       }, 500);
     }
 
-    es.onerror = err => console.error('SSE error', err);
+    es.onerror = err => console.error('SSE error:', err);
   </script>
 
-  <script src="https://hosted.muses.org/mrp.js"></script>
-  <script>
+  <!-- SCRIPT PLAYER MUSES -->
+  <script type="text/javascript" src="https://hosted.muses.org/mrp.js"></script>
+  <script type="text/javascript">
     MRP.insert({
-      url: 'https://stream-179.zeno.fm/t2l8dpcdouitv',
-      volume: 100,
-      autoplay: true,
-      forceHTML5: true,
-      jsevents: true,
-      buffering: 0,
-      title: 'Radio Veronica Forever',
-      welcome: 'Benvenuti',
-      wmode: 'transparent',
-      skin: 'miniradio',
-      width: 289,
-      height: 112,
-      container: 'musesplayer'
+      'url': 'https://stream-179.zeno.fm/t2l8dpcdouitv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJ0Mmw4ZHBjZG91aXR2IiwiaG9zdCI6InN0cmVhbS0xNzkuemVuby5mbSIsInRtIjpmYWxzZSwicnR0bCI6NSwianRpIjoidmNlUUQxemxSM091WUUzaXNPbDlUZyIsImlhdCI6MTc1MzA0ODA4MywiZXhwIjoxNzUzMDQ4MTQzfQ.ySf3UoRWxgUDQm0veN-_NV9vJI8-Xx2A3qdI1ulVHY4',
+      'volume': 100,
+      'autoplay': true,
+      'forceHTML5': true,
+      'jsevents': true,
+      'buffering': 0,
+      'title': 'RadioVeronicaForever',
+      'welcome': 'Benvenuti',
+      'wmode': 'transparent',
+      'skin': 'miniradio',
+      'width': 289,
+      'height': 112,
+      'container': 'musesplayer'
     });
 
     window.addEventListener('load', () => {
+      const playerContainer = document.getElementById('musesplayer');
       setTimeout(() => {
-        const audio = document.querySelector('#musesplayer audio');
+        const audio = playerContainer.querySelector('audio');
         if (audio) {
-          audio.onerror = () => setTimeout(() => (audio.load(), audio.play()), 1000);
-          audio.onended = () => setTimeout(() => (audio.load(), audio.play()), 1000);
+          audio.onerror = () => {
+            console.log('Audio error detected, riavvio lo streaming in 1 secondo');
+            setTimeout(() => {
+              audio.load();
+              audio.play();
+            }, 1000);
+          };
+          audio.onended = () => {
+            console.log('Audio stream ended, riavvio in 1 secondo');
+            setTimeout(() => {
+              audio.load();
+              audio.play();
+            }, 1000);
+          };
+        } else {
+          console.warn('Audio element non trovato nel player Muses');
         }
       }, 1000);
     });
   </script>
+
 </body>
 </html>
